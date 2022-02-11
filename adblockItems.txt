@@ -1,0 +1,21 @@
+[Adblock Plus 2.0]
+! Version: 20220211
+
+*.33across.com
+*.aaxads.com
+*.adnxs.com
+*.amazon-adsystem.com
+*.casalemedia.com
+*.chat.bilibili.com
+*.doubleclick.net
+*.footprintdns.com
+*.imrworldwide.com
+*.media.net
+*.openx.net
+*.rubiconproject.com
+*.taboola.com
+*.taboola.com.cn
+*.trackedweb.net
+*.vungle.com
+*.yahoo.com
+@@*.chat.bilibili.com/sub
