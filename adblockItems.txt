@@ -1,0 +1,6 @@
+[Adblock Plus 2.0]
+! Version: 20220213
+
+! bilibili
+@@*.chat.bilibili.com/sub
+*.chat.bilibili.com
