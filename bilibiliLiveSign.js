@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliLiveSign
 // @namespace    https://iconquestion.github.io/
-// @version      0.1
+// @version      0.2
 // @description  Hello!
 // @author       Microsoft365
 // @match        https://t.bilibili.com
