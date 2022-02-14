@@ -4,7 +4,7 @@
 // @version      0.4
 // @description  try to take over the world!
 // @author       iconquestion
-// @match        https://live.bilibili.com/
+// @match        https://live.bilibili.com/run
 // @icon         https://live.bilibili.com/favicon.ico
 // @grant        none
 // ==/UserScript==
