@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://live.bilibili.com/
