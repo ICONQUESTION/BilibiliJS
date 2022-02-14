@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://live.bilibili.com/
@@ -18,7 +18,7 @@ titles = [],
 pagenum = 1,
 csrf = document.cookie.match(/(?<=bili_jct=).+?(?=;)/)[0];
 	// 1.轮询各个分区的第1页
-for (; pagenum < 10; pagenum++) {
+for (; pagenum < 14; pagenum++) {
 	console.log('正在检查分区：'+pagenum);
     fetch('https://api.live.bilibili.com/xlive/web-interface/v1/second/getList?platform=web&parent_area_id=' + pagenum + '&page=1', {
         method: 'GET',
