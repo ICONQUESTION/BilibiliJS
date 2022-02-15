@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      1.071
+// @version      1.081
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://live.bilibili.com/run
@@ -27,7 +27,7 @@ function getredpocket() {
             return res.json();
         }).then(function(jsondata) {
             //sleep!
-            sleep(Math.random()*100).then(function(){
+            sleep(Math.random()*300).then(function(){
             jsondata.data.list.forEach(function(ele, eleindex) {
                 // 2.对所获数据进行处理
                 if ((ele.pendant_info[1] && ele.pendant_info[1].content == '红包') || (ele.pendant_info[2] && ele.pendant_info[2].content == '红包')) {
@@ -98,8 +98,55 @@ function getredpocket() {
     //产生间隔，准备下一次循环执行
     sleep(8000).then(function(){
         var waterdrop=80000+Math.random()*100000;
-        console.info('---间隔时间: '+waterdrop+'ms---');
-        console.info('   ');
+
+
+        //插入另一个js!!!
+        var unfollowedMsgNum = 0;
+    fetch('https://api.vc.bilibili.com/session_svr/v1/session_svr/single_unread', {
+        method: 'GET',
+        credentials: 'include',
+    }).then(function(res) {
+        return res.json();
+    }).then(function(jsondata) {
+        unfollowedMsgNum = jsondata.data.unfollow_unread + jsondata.data.unfollow_push_msg + jsondata.data.follow_unread;
+        console.log(unfollowedMsgNum + ' unread msg(s)');
+        //获取未读信息发件人talker_id
+        if (unfollowedMsgNum) {
+            console.log('Working...');
+            var talkerIds = [];
+            fetch('https://api.vc.bilibili.com/session_svr/v1/session_svr/get_sessions?session_type=1&sort_rule=2', {
+                method: 'GET',
+                credentials: 'include'
+            }).then(function(res) {
+                return res.json();
+            }).then(function(jsondata) {
+                jsondata.data.session_list.forEach(function(ele, eleindex) {
+                    if (ele.unread_count) {
+                        talkerIds.push(ele.talker_id);
+                    }
+                })
+                //批量确认消息已读
+                var csrftoken = document.cookie.match(/(?<=bili_jct=).+?(?=;)/)[0];
+                for (var i = 0; i < talkerIds.length; i++) {
+                    console.log('Marking id: ' + talkerIds[i]);
+                    fetch('https://api.vc.bilibili.com/session_svr/v1/session_svr/update_ack', {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Referer': 'https://message.bilibili.com/',
+                            'Origin': '',
+                            'Accept': 'application/json, text/plain, */*'
+                        },
+                        body: 'talker_id=' + talkerIds[i] + '&session_type=1&csrf=' + csrftoken
+                    });
+                }
+            })
+        }
+    })
+    console.info('---间隔时间: '+waterdrop+'ms---');
+    console.info('   ');
         setTimeout(getredpocket,waterdrop);
     })
 

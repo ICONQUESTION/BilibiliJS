@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         bilibiliClearNotifications
 // @namespace    https://iconquestion.github.io/
-// @version      0.12
+// @version      0.121
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://message.bilibili.com/run
-// @match        https://t.bilibili.com/clrmsg
+// @match        https://t.bilibili.com/c
 // @icon         https://live.bilibili.com/favicon.ico
 // @grant        none
 // ==/UserScript==
