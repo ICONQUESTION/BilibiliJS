@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      1.03
+// @version      1.071
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://live.bilibili.com/run
@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-//最大的问题：异步！！！
+//对应fetch的异步特点，在每个关键的fetch子节点上使用sleep方式延迟发起请求（延迟到足以让上一个fetch请求完成），同时利于避免请求过于规律被检测
 var csrf = document.cookie.match(/(?<=bili_jct=).+?(?=;)/)[0];
 
 function getredpocket() {
@@ -26,6 +26,8 @@ function getredpocket() {
         }).then(function(res) {
             return res.json();
         }).then(function(jsondata) {
+            //sleep!
+            sleep(Math.random()*100).then(function(){
             jsondata.data.list.forEach(function(ele, eleindex) {
                 // 2.对所获数据进行处理
                 if ((ele.pendant_info[1] && ele.pendant_info[1].content == '红包') || (ele.pendant_info[2] && ele.pendant_info[2].content == '红包')) {
@@ -48,7 +50,8 @@ function getredpocket() {
                     }).then(function(res) {
                         return res.json();
                     }).then(function(jsondata) {
-                        sleep(100).then(function(){
+                        //sleep!
+                        sleep(Math.random()*200).then(function(){
                             console.log('Room :'+ele.roomid+'  Status: '+jsondata.data.popularity_red_pocket[0].user_status);
                             //如果没有红包，popularity_red_pocket属性值null；
                             //如果有红包，popularity_red_pocket中会存在lot_id属性，
@@ -66,8 +69,9 @@ function getredpocket() {
                                     return res.json();
                                 }).then(function(jsondata) {
                                     console.log('TargetRoomId: '+ele.roomid+'  TargetLotId: ' + lotid+'  Status: '+jsondata.code+'  StatusText: '+jsondata.message);
-                                    sleep(1000+Math.random()*100).then(function(){
-                                            // 6.移动所有自动关注的up到特定分组内
+                                    //sleep!
+                                    sleep(5000+Math.random()*1000).then(function(){
+                                            // 6.移动所有自动关注的up到特定分组内（之后用其他脚本批量取关hhh）
                                             fetch('https://api.bilibili.com/x/relation/tags/addUsers?cross_domain=true',{
                                             method:'post',
                                             credentials:'include',
@@ -89,10 +93,11 @@ function getredpocket() {
                     })
                 }
             })
-        })
+    })})
     }
-    sleep(4000).then(function(){
-        var waterdrop=80000+Math.random()*10000;
+    //产生间隔，准备下一次循环执行
+    sleep(8000).then(function(){
+        var waterdrop=80000+Math.random()*100000;
         console.info('---间隔时间: '+waterdrop+'ms---');
         console.info('   ');
         setTimeout(getredpocket,waterdrop);
