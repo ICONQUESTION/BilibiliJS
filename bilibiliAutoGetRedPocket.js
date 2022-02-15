@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      1.0
+// @version      1.03
 // @description  try to take over the world!
 // @author       iconquestion
 // @match        https://live.bilibili.com/run
@@ -65,8 +65,8 @@ function getredpocket() {
                                 }).then(function(res) {
                                     return res.json();
                                 }).then(function(jsondata) {
-                                    console.log('Target room id: '+ele.roomid+'  Target lot_id: ' + lotid+'  Status: '+jsondata.code+'  StatusText: '+jsondata.message);
-                                    sleep(400+Math.random()*100).then(function(){
+                                    console.log('TargetRoomId: '+ele.roomid+'  TargetLotId: ' + lotid+'  Status: '+jsondata.code+'  StatusText: '+jsondata.message);
+                                    sleep(1000+Math.random()*100).then(function(){
                                             // 6.移动所有自动关注的up到特定分组内
                                             fetch('https://api.bilibili.com/x/relation/tags/addUsers?cross_domain=true',{
                                             method:'post',
@@ -78,7 +78,7 @@ function getredpocket() {
                                             }).then(function(res){
                                                 return res.json();
                                             }).then(function(jsondata){
-                                                console.log('  Moving: '+ele.uid+'  Status: '+jsondata.code+'  StatusText: '+jsondata.message);
+                                                console.log('  Moving uid: '+ele.uid+'  Status: '+jsondata.code+'  StatusText: '+jsondata.message);
                                             })
                                     });
                                 
@@ -91,10 +91,13 @@ function getredpocket() {
             })
         })
     }
+    sleep(4000).then(function(){
+        var waterdrop=80000+Math.random()*10000;
+        console.info('---间隔时间: '+waterdrop+'ms---');
+        console.info('   ');
+        setTimeout(getredpocket,waterdrop);
+    })
 
-    var waterdrop=80000+Math.random()*10000;
-    console.info('---间隔时间: '+waterdrop+'ms---');
-    setTimeout(getredpocket,waterdrop);
 }
 
 getredpocket();

@@ -1,6 +1,6 @@
 [Adblock Plus 2.0]
-! Version: 20220213
+! Version: 20220214
+! Title: Bilibili Livestreaming P2P Blocking
 
-! bilibili
 @@*.chat.bilibili.com/sub
 *.chat.bilibili.com
