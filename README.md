@@ -5,9 +5,11 @@ Hello! This is my personal repository! Welcome！
 提示：所有项目已放iconquestion.github.io主页，需要可直接访问下载。
 
 adblockItems.txt
+关键词：b站 bilibili 直播 p2p 阻止
 阻止b站直播p2p上传流量用的，因为b站把p2p和弹幕这两个功能绑定到同一批CDN上去了，就暂时用adblock里的例外规则例外出来。adblock里添加URL列表即可。
 
 bilibiliAutoGetRedpocket.js
+关键词：b站 bilibili 直播 抢红包
 顾名思义，b站直播分区抢红包用的，放油猴即可，触发URL随便你怎么改都行。
 
 bilibiliClearNotifications.js
@@ -17,4 +19,5 @@ bilibiliLiveSign.js
 b站直播自动签到。代码极其简单，网上类似甚多，同样不做更新。
 
 
-（写这个文档...我觉得也没啥意思，项目的名字就是它本身的用途，里面也都有注释什么的，写在这里就是想让这个repository能被搜索到而已...）
+（写这个文档...我觉得也没啥意思，项目的名字就是它本身的用途，里面也都有注释什么的，写在这里就是想让这个repository能被搜索到而已...
+不更新的项目就不备注关键词了...）
