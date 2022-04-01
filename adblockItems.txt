@@ -4,3 +4,4 @@
 
 @@*.chat.bilibili.com/sub
 *.chat.bilibili.com
+data.bilibili.com/log
