@@ -1,0 +1,8 @@
+[Adblock Plus 2.0]
+! Version: 20220401
+! Title: GFW
+
+ajax.googleapis.com
+*.twitter.*
+*.youtube.*
+*.facebook.*
