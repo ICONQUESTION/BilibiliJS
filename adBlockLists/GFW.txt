@@ -3,6 +3,7 @@
 ! Title: GFW
 
 ajax.googleapis.com
+maps.googleapis.com
 *.twitter.*
 *.youtube.*
 *.facebook.*
