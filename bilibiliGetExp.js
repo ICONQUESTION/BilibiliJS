@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExp
 // @namespace    http://tampermonkey.net/
-// @version      0.82
+// @version      0.94
 // @description  try to take over the world!
 // @author       You
 // @match        https://t.bilibili.com/go
@@ -17,10 +17,16 @@ var urlList = {
     videoProperty: 'https://api.bilibili.com/x/player/pagelist',
     getAccess_key: 'https://passport.bilibili.com/login/app/third?appkey=1d8b6e7d45233436&api=http://link.acg.tv/forum.php&sign=5f9c0a5c2360c80b858d546a23a4a9dd',
 }
-var csrftoken = document.cookie.match(/(?<=bili_jct=).+?(?=;)/);
+
+//将document.cookie中的'; '替换为'&'，从而满足生成URL对象的条件，再利用URL对象的searchParam功能完成cookie检索
+var cookies = new URL('http://hello.world/test?' + document.cookie.replaceAll('; ', '&'))
+
+var csrftoken = cookies.searchParams.get('bili_jct')
+var mid = cookies.searchParams.get('DedeUserID')
+var access_key = cookies.searchParams.get('access_key')
+
 var currentTime = parseInt((new Date().getTime()) / 1000);
-var mid = document.cookie.match(/(?<=DedeUserID=).+?(?=;)/);
-var access_key = document.cookie.match(/(?<=access_key=).+?(?=;)/);
+
 
 
 //从这里开始执行
@@ -61,56 +67,60 @@ window.onload = function () {
                 var cid = data.data[0].cid
                 console.log('视频cid: ' + cid)
 
-                shareVideo(aid, cid)//客户端视频分享
-                //  watchVideo(aid, bvid, cid)//视频观看
+                shareVideo1(aid, cid)//客户端视频分享
+                watchVideo(aid, bvid, cid)//视频观看
             })
         }
     })
 }
 
 
+
 //分享视频
-function shareVideo(aid, cid) {
+function shareVideo1(aid, cid) {
     console.log('正在分享视频, aid=' + aid)
-    console.log(access_key)
 
     if (!access_key) {
         console.log('无access_key, 正在请求新access_key')
-        return
-        //GET
+
         fetch(urlList.getAccess_key, {
             credentials: 'include',
         }).then(function (res) {
-            var a = res.headers.get('Content-Type').search('application/json')
-            console.log(a)
-            return a != -1 ? res.json() : undefined
+            return res.headers.get('Content-Type').search('application/json') != -1 ? res.json() : undefined
         }).then(function (data) {
             if (!data || !data.data || !data.data.confirm_uri) {
                 console.log('返回数据异常。程序将退出。')
                 return
             }
-            console.log(data)
 
-            var uri = data.data.confirm_uri
-            console.log(uri)
-            fetch(uri, {
-                credentials: 'include',
-                redirect: 'manual'
-            }).then(function (res) {
-                //暂时不知道如何获取location字段...
-                console.log(res)
-                console.log(res.headers.get('Location'))
-            }).catch(function (err) {
-                console.log(err)
-            })
+            console.log('请右键以下链接，点击"在新标签页中打开"，然后复制查询字符串中的access_key字段，粘贴到这里')
+            console.log(data.data.confirm_uri)
+
+            var accesskey = prompt('请打开浏览器控制台，右键最下方的链接，点击"在新标签页中打开"，然后复制查询字符串中的access_key字段，粘贴到这里')
+            if (accesskey) {
+                document.cookie = 'access_key=' + accesskey + '; max-age=15552000; domain=.bilibili.com'
+                shareVideo2(aid, cid)
+            } else {
+                console.log('用户已取消操作。')
+            }
 
         }).catch(function (err) {
             console.log(err)
         })
-    }
 
+    } else {
+        console.log('已检测到access_key')
+        console.log(access_key)
+        shareVideo2(aid, cid)
+    }
+}
+
+
+function shareVideo2(aid, cid) {
     var body = 'access_key=' + access_key + '&appkey=1d8b6e7d45233436&build=6800300&c_locale=zh_CN&channel=bili&disable_rcmd=0&from_spmid=dt.dt.video.0&mobi_app=android&oid=' + aid + '&panel_type=1&platform=android&s_locale=zh_CN&share_channel=biliDynamic&share_id=main.ugc-video-detail.0.0.pv&share_origin=vinfo_share&share_session_id=' + '6609bb15-ac05-4118-8f12-cbc4959672d3' + '&sid=' + cid + '&spm_id=main.ugc-video-detail.0.0&statistics=%7B%22appId%22%3A1%2C%22platform%22%3A3%2C%22version%22%3A%226.80.0%22%2C%22abtest%22%3A%22%22%7D&success=true&ts=' + currentTime + '&sign='
     body = body + md5(body + '560c52ccd288fed045859ed18bffd973')
+
+    console.log('正在请求分享API')
 
     fetch(urlList.shareVideo, {
         method: 'post',
@@ -132,10 +142,8 @@ function shareVideo(aid, cid) {
             'Accept-Encoding': 'gzip',
         },
         body: body,
-    }).then(function (res) {
-        return res.json();
-    }).then(function (data) {
-        console.log(data)
+    }).catch(function (err) {
+        console.log(err)
     })
 
 }
