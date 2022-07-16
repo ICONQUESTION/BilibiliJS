@@ -5,6 +5,13 @@ Hello! This is my personal repository! Welcome！
 提示：所有项目已放iconquestion.github.io主页，需要可直接访问下载。
 
 
+————bilibiliGetExp.js
+
+关键词：b站 bilibili 刷经验
+支持获得观看视频经验、客户端分享视频经验
+正在开发中！！
+
+
 ————adblockLists
 
 关键词：b站 bilibili 直播 p2p 阻止
