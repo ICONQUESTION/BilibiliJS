@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExp
 // @namespace    https://iconquestion.github.io
-// @version      1.20
+// @version      1.23
 // @description  Hello, world!
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com
@@ -95,6 +95,8 @@ window.onload = function () {
 
 //检查可获得经验值的任务
 function checkTasks(resolve, reject) {
+    console.log('正在检查任务列表')
+
     fetch(urlList.checkTasks, {
         credentials: 'include',
         headers: {
@@ -108,6 +110,8 @@ function checkTasks(resolve, reject) {
         //console.log(data)
         if (!data || !data.data) {
             reject('fetch(urlList.checkTasks) 返回数据异常。')
+        } else if (data.data.share && data.data.watch && !debugMode) {
+            reject('所有任务已经完成！')
         } else {
             //传回最内层data（对象）
             resolve(data.data)
