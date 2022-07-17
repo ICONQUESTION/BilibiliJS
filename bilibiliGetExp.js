@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         bilibiliGetExp
 // @namespace    https://iconquestion.github.io
-// @version      1.15
+// @version      1.20
 // @description  Hello, world!
 // @author       ICONQUESTION
-// @match        https://t.bilibili.com/go
+// @match        https://t.bilibili.com
 // @icon         https://bilibili.com/favicon.ico
 // @grant        none
 // @require      https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js

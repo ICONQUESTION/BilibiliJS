@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         bilibiliLiveSign
 // @namespace    https://iconquestion.github.io/
-// @version      0.60
+// @version      0.71
 // @description  Hello!
 // @author       Microsoft365
-// @match        https://t.bilibili.com/go
+// @match        https://t.bilibili.com
 // @icon         https://bilibili.com/favicon.ico
 // @grant        none
 // ==/UserScript==
