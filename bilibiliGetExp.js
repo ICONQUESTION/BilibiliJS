@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExp
 // @namespace    https://iconquestion.github.io
-// @version      0.96
+// @version      1.15
 // @description  Hello, world!
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/go
@@ -21,13 +21,13 @@ var urlList = {
 
 //将document.cookie中的'; '替换为'&'，从而满足生成URL对象的条件，再利用URL对象的searchParam功能完成cookie检索
 var cookies = new URL('http://hello.world/test?' + document.cookie.replaceAll('; ', '&'))
-
 var csrftoken = cookies.searchParams.get('bili_jct')
 var mid = cookies.searchParams.get('DedeUserID')
 var access_key = cookies.searchParams.get('access_key')
 
 var currentTime = parseInt((new Date().getTime()) / 1000);
 
+var debugMode = false
 
 
 //从这里开始执行
@@ -40,22 +40,27 @@ window.onload = function () {
 
 
     new Promise(function (resolve, reject) {
-        //2.检查可完成的任务，resolve=有任务，reject=无任务
+        //2.检查可完成的任务
         checkTasks(resolve, reject)
     }).then(function (data) {
-        new Promise(function (resolve) {
-            //3.从动态列表拉取视频
-            grabVideo(resolve)
-        }).then(function (aid, bvid, cid) {
+        new Promise(function (resolve, reject) {
+            //3.从动态列表拉取视频，resolve=成功，reject=无视频或出现错误
+            grabVideo(resolve, reject)
+        }).then(function (videoProp) {
+            if (!videoProp[0] || !videoProp[1] || !videoProp[2]) {
+                console.log('获取视频数据有误')
+                return
+            }
+
             //4.1 完成观看视频任务
-            if (!data.share) {
-                watchVideo(aid, bvid, cid)
+            if (!data.share || debugMode) {
+                watchVideo(videoProp)
             } else {
                 console.log('观看视频任务已经完成！')
             }
 
             //4.2 完成分享视频任务
-            if (!data.watch) {
+            if (!data.watch || debugMode) {
                 if (!access_key) {
                     //4.2.1 获取access_key
                     new Promise(function (resolve, reject) {
@@ -63,20 +68,27 @@ window.onload = function () {
                         getAccessKey(resolve, reject)
                     }).then(function () {
                         //4.2.2 分享视频
-                        shareVideo(aid, cid)
+                        shareVideo(videoProp)
                     }, function (msg) {
                         console.log(msg)
+                        return
                     })
                 } else {
                     //4.2.1 分享视频
-                    shareVideo(aid, cid)
+                    shareVideo(videoProp)
                 }
             } else {
                 console.log('分享视频任务已经完成！')
+                return
             }
+
+        }, function (msg) {
+            console.log(msg)
+            return
         })
     }, function (msg) {
         console.log(msg)
+        return
     })
 }
 
@@ -95,9 +107,7 @@ function checkTasks(resolve, reject) {
     }).then(function (data) {
         //console.log(data)
         if (!data || !data.data) {
-            console.log('返回数据异常。程序将退出。')
-        } else if (data.data.watch && data.data.share) {
-            reject('所有视频任务已完成！')
+            reject('fetch(urlList.checkTasks) 返回数据异常。')
         } else {
             //传回最内层data（对象）
             resolve(data.data)
@@ -107,39 +117,50 @@ function checkTasks(resolve, reject) {
 
 
 //抓取视频
-function grabVideo() {
+function grabVideo(resolve, reject) {
     console.log('正在检索动态列表')
 
     fetch(urlList.dynamic, {
         credentials: 'include',
     }).then(function (res) {
-        return res.json();
+        return res.headers.get('Content-Type').search('application/json') != -1 ? res.json() : undefined
     }).then(function (data) {
         //console.log(data)
-        if (!data.data.items.length) {
-            console.log('列表为空。')
-        } else {
-            var aid = data.data.items[0].basic.comment_id_str
-            var bvid = data.data.items[0].modules.module_dynamic.major.archive.bvid
-            console.log('找到1项, aid: ' + aid + ', bvid= ' + bvid + ', 正在获取视频cid')
-
-            fetch(urlList.videoProperty + '?bvid=' + bvid + '&jsonp=jsonp', {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Accept': '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Accept-Encoding': 'gzip, deflate',
-                    'Accept-Language': 'zh-CN,zh;q=0.9',
-                },
-            }).then(function (rawData) {
-                return rawData.json();
-            }).then(function (data) {
-                var cid = data.data[0].cid
-                console.log('视频cid: ' + cid)
-                resolve(aid, bvid, cid)
-            })
+        if (!data || !data.data || !data.data.items) {
+            reject('fetch(urlList.dynamic) 返回数据类型异常，或返回列表为空。')
+            return
         }
+
+        var aid = data.data.items[0].basic.comment_id_str
+        // console.log(typeof (aid))
+        var bvid = data.data.items[0].modules.module_dynamic.major.archive.bvid
+        // console.log(typeof (bvid))
+
+        fetch(urlList.videoProperty + '?bvid=' + bvid + '&jsonp=jsonp', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept-Language': 'zh-CN,zh;q=0.9',
+            },
+        }).then(function (res) {
+            return res.headers.get('Content-Type').search('application/json') != -1 ? res.json() : undefined
+        }).then(function (data) {
+            //console.log(data)
+            if (!data || !data.data || !data.data[0].cid) {
+                reject('fetch(urlList.videoProperty) 返回数据类型异常')
+                return
+            }
+
+            var cid = data.data[0].cid
+            //console.log(typeof (cid))
+
+            console.log('获取到以下视频数据: aid=' + aid + ', bvid=' + bvid + ', cid=' + cid)
+            aid && bvid && cid ? resolve([aid, bvid, cid]) : reject('aid/bvid/cid数据异常')
+        })
+
     })
 }
 
@@ -152,11 +173,11 @@ function getAccessKey(resolve, reject) {
     }).then(function (data) {
         //console.log(data)
         if (!data || !data.data || !data.data.confirm_uri) {
-            console.log('返回数据异常。程序将退出。')
+            reject('fetch(urlList.getAccess_key) 返回数据异常')
             return
         }
 
-        console.log('请右键以下链接，点击"在新标签页中打开"，然后复制查询字符串中的access_key字段，粘贴到这里')
+        console.log('请右键以下链接，点击"在新标签页中打开"，然后复制查询字符串中的access_key字段，粘贴到对话框中')
         console.log(data.data.confirm_uri)
 
         if (prompt('请打开浏览器控制台，右键最下方的链接，点击"在新标签页中打开"，然后复制查询字符串中的access_key字段，粘贴到这里')) {
@@ -169,41 +190,54 @@ function getAccessKey(resolve, reject) {
 }
 
 
-function shareVideo(aid, cid) {
-    var body = 'access_key=' + access_key + '&appkey=1d8b6e7d45233436&build=6800300&c_locale=zh_CN&channel=bili&disable_rcmd=0&from_spmid=dt.dt.video.0&mobi_app=android&oid=' + aid + '&panel_type=1&platform=android&s_locale=zh_CN&share_channel=biliDynamic&share_id=main.ugc-video-detail.0.0.pv&share_origin=vinfo_share&share_session_id=' + '6609bb15-ac05-4118-8f12-cbc4959672d3' + '&sid=' + cid + '&spm_id=main.ugc-video-detail.0.0&statistics=%7B%22appId%22%3A1%2C%22platform%22%3A3%2C%22version%22%3A%226.80.0%22%2C%22abtest%22%3A%22%22%7D&success=true&ts=' + currentTime + '&sign='
+function shareVideo(videoProp) {
+    var aid = videoProp[0], bvid = videoProp[1], cid = videoProp[2]
+
+    //share_session_id生成方式和作用未知，欢迎补充！
+    var body = 'access_key=' + access_key + '&appkey=1d8b6e7d45233436&build=6800300&c_locale=zh_CN&channel=bili&disable_rcmd=0&from_spmid=dt.dt.video.0&mobi_app=android&oid=' + aid + '&panel_type=1&platform=android&s_locale=zh_CN&share_channel=biliDynamic&share_id=main.ugc-video-detail.0.0.pv&share_origin=vinfo_share&share_session_id=' + '6609bb15-ac05-4118-8f12-cb' + currentTime + '&sid=' + cid + '&spm_id=main.ugc-video-detail.0.0&statistics=%7B%22appId%22%3A1%2C%22platform%22%3A3%2C%22version%22%3A%226.80.0%22%2C%22abtest%22%3A%22%22%7D&success=true&ts=' + currentTime + '&sign='
     body = body + md5(body + '560c52ccd288fed045859ed18bffd973')
 
     console.log('正在分享视频, aid=' + aid)
 
     fetch(urlList.shareVideo, {
         method: 'post',
-        mode: 'no-cors',
-        referrer: "no-referrer",
+        mode: 'cors',
+        //referrer: "no-referrer",
         headers: {
-            'Buvid': 'XXAF685A25ED66209F45C4248C26054E197A8',
-            'Fp_local': '9ca222f943ae8680669b6cdf2da959e120220715131357006bc66326e8302881',
-            'Fp_remote': '9ca222f943ae8680669b6cdf2da959e1202207131056235c836389e254a11b4e',
-            'Session_id': '831ec2b1',//暂时不知道如何处理
-            'Env': 'prod',
-            'App-Key': 'android',
-            'User-Agent': 'Mozilla/5.0 BiliDroid/6.80.0 (bbcallen@gmail.com) os/android model/SM-G9730 mobi_app/android build/6800300 channel/bili innerVer/6800300 osVer/7.1.2 network/2',
-            'X-Bili-Trace-Id': '390743e355a59747842729ca1962d222:8427c9ca1962d222:0:0',//暂时不知道如何处理
-            'X-Bili-Aurora-Eid': 'UlYITlUAD1ID',
-            'X-Bili-Mid': mid,
-            'X-Bili-Aurora-Zone': '',
+            //'Buvid': 'XXAF685A25ED66209F45C4248C26054E197A8',
+            //'Fp_local': '9ca222f943ae8680669b6cdf2da959e120220715131357006bc66326e8302881',
+            //'Fp_remote': '9ca222f943ae8680669b6cdf2da959e1202207131056235c836389e254a11b4e',
+            //'Session_id': '831ec2b1',//暂时不知道如何处理
+            //'Env': 'prod',
+            //'App-Key': 'android',
+            //'User-Agent': 'Mozilla/5.0 BiliDroid/6.80.0 (bbcallen@gmail.com) os/android model/SM-G9730 mobi_app/android build/6800300 channel/bili innerVer/6800300 osVer/7.1.2 network/2',
+            //'X-Bili-Trace-Id': '390743e355a59747842729ca1962d222:8427c9ca1962d222:0:0',//暂时不知道如何处理
+            //'X-Bili-Aurora-Eid': 'UlYITlUAD1ID',
+            //'X-Bili-Mid': mid,
+            //'X-Bili-Aurora-Zone': '',
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-            'Accept-Encoding': 'gzip',
+            //'Accept-Encoding': 'gzip',
         },
         body: body,
-    })
+    }).then(function (res) {
+        return res.headers.get('Content-Type').search('application/json') != -1 ? res.json() : undefined
+    }).then(function (data) {
+        //console.log(data)
+        if (!data) {
+            console.log('fetch(urlList.shareVideo) 返回数据异常')
+            return
+        }
 
-    console.log('分享视频完成')
+        //每天第一次分享，返回的toast不为空
+        console.log(data.data.toast ? data.data.toast : '分享视频完成')
+    })
 }
 
 
 //观看视频
-function watchVideo(aid, bvid, cid) {
-    console.log('正在观看视频, aid=' + aid + ', bvid= ' + bvid + ', cid= ' + cid)
+function watchVideo(videoProp) {
+    var aid = videoProp[0], bvid = videoProp[1], cid = videoProp[2]
+    console.log('正在观看视频, aid=' + aid + ', bvid=' + bvid + ', cid=' + cid)
     fetch(urlList.watchVideo, {
         method: 'post',
         credentials: 'include',
@@ -217,12 +251,12 @@ function watchVideo(aid, bvid, cid) {
         return res.headers.get('Content-Type').search('application/json') != -1 ? res.json() : undefined
     }).then(function (data) {
         //console.log(data)
-        if (!data || !data.data) {
-            console.log('返回数据异常。程序将退出。')
+        if (!data) {
+            console.log('fetch(urlList.watchVideo) 返回数据异常')
             return
         }
 
         //正常情况返回string'0'，否则返回具体信息
-        console.log(data.data.message == '0' ? '分享视频成功' : data.data.message)
+        console.log(data.message == '0' ? '观看视频完成' : data.message)
     })
 }
