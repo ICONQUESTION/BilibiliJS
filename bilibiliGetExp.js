@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExp
 // @namespace    https://iconquestion.github.io
-// @version      1.23
+// @version      1.29
 // @description  Hello, world!
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com
@@ -21,13 +21,33 @@ var urlList = {
 
 //将document.cookie中的'; '替换为'&'，从而满足生成URL对象的条件，再利用URL对象的searchParam功能完成cookie检索
 var cookies = new URL('http://hello.world/test?' + document.cookie.replaceAll('; ', '&'))
+var shareVideoDone = cookies.searchParams.get('shareVideoDone'), watchVideoDone = cookies.searchParams.get('watchVideoDone')
 var csrftoken = cookies.searchParams.get('bili_jct')
 var mid = cookies.searchParams.get('DedeUserID')
 var access_key = cookies.searchParams.get('access_key')
 
-var currentTime = parseInt((new Date().getTime()) / 1000);
+//date用来设置记录性cookies过期时间为第二天0:0:0
+var date = new Date()
+var currentTime = parseInt((date.getTime()) / 1000);
+date.setTime(date.getTime() + 3600 * 24 * 1000)
+date.setHours(0, 0, 0, 0)
 
+//调试性开关
+/*
+var debugMode = {
+    'true': '无论返回数据显示任务是否完成，都再执行一次',
+    'false': '根据返回数据情况，有选择地执行'
+}
+*/
 var debugMode = false
+
+/*
+var cookieRecordComesFirst={
+    'true':'以cookies中的任务完成记录为准',
+    'false':'以fetch请求返回的数据为准'
+}
+*/
+var cookieRecordComesFirst = true
 
 
 //从这里开始执行
@@ -38,20 +58,28 @@ window.onload = function () {
         return;
     }
 
-
     new Promise(function (resolve, reject) {
-        //2.检查可完成的任务
-        checkTasks(resolve, reject)
+        //2.检查可完成的任务，resolve=成功，reject=出现错误
+        if (cookieRecordComesFirst) {
+            console.log('当前模式：cookies记录优先')
+            var status = { 'share': shareVideoDone, 'watch': watchVideoDone }
+            console.log(status)
+            resolve(status)
+        } else {
+            console.log('当前模式：fetch请求优先')
+            checkTasks(resolve, reject)
+        }
     }).then(function (data) {
+        //在未开启调试模式状态下，如果返回数据表明任务已经全部完成，则程序退出，减少资源占用
+        if (!debugMode && data.share && data.watch) {
+            console.log('所有任务已经完成！')
+            return
+        }
+
         new Promise(function (resolve, reject) {
             //3.从动态列表拉取视频，resolve=成功，reject=无视频或出现错误
             grabVideo(resolve, reject)
         }).then(function (videoProp) {
-            if (!videoProp[0] || !videoProp[1] || !videoProp[2]) {
-                console.log('获取视频数据有误')
-                return
-            }
-
             //4.1 完成观看视频任务
             if (!data.share || debugMode) {
                 watchVideo(videoProp)
@@ -110,8 +138,6 @@ function checkTasks(resolve, reject) {
         //console.log(data)
         if (!data || !data.data) {
             reject('fetch(urlList.checkTasks) 返回数据异常。')
-        } else if (data.data.share && data.data.watch && !debugMode) {
-            reject('所有任务已经完成！')
         } else {
             //传回最内层data（对象）
             resolve(data.data)
@@ -122,7 +148,7 @@ function checkTasks(resolve, reject) {
 
 //抓取视频
 function grabVideo(resolve, reject) {
-    console.log('正在检索动态列表')
+    console.log('正在抓取视频')
 
     fetch(urlList.dynamic, {
         credentials: 'include',
@@ -168,7 +194,7 @@ function grabVideo(resolve, reject) {
     })
 }
 
-
+//获取access_key
 function getAccessKey(resolve, reject) {
     fetch(urlList.getAccess_key, {
         credentials: 'include',
@@ -193,7 +219,7 @@ function getAccessKey(resolve, reject) {
     })
 }
 
-
+//这个...不用解释了吧
 function shareVideo(videoProp) {
     var aid = videoProp[0], bvid = videoProp[1], cid = videoProp[2]
 
@@ -232,8 +258,9 @@ function shareVideo(videoProp) {
             return
         }
 
-        //每天第一次分享，返回的toast不为空
-        console.log(data.data.toast ? data.data.toast : '分享视频完成')
+        //每天第一次分享，返回的toast不为空，之后的分享toast为空
+        console.log(data.data.toast ? data.data.toast : '分享视频任务成功完成')
+        document.cookie = 'shareVideoDone=true; expires=' + date.toGMTString()
     })
 }
 
@@ -261,6 +288,7 @@ function watchVideo(videoProp) {
         }
 
         //正常情况返回string'0'，否则返回具体信息
-        console.log(data.message == '0' ? '观看视频完成' : data.message)
+        console.log(data.message == '0' ? '观看视频任务成功完成' : data.message)
+        document.cookie = 'watchVideoDone=true; expires=' + date.toGMTString()
     })
 }
