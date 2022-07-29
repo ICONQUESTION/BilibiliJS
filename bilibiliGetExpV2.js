@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExpV2
 // @namespace    https://iconquestion.github.io
-// @version      2.02
+// @version      2.10
 // @description  Hello, world!
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/*
@@ -39,7 +39,7 @@ var debugMode = {
     'false': '根据返回数据情况，有选择地执行'
 }
 */
-var debugMode = localStorage ? localStorage.getItem('debugMode') : false
+var debugMode = localStorage && localStorage.getItem('debugMode') != undefined ? localStorage.getItem('debugMode') : false
 
 /*
 var cookieRecordComesFirst={
@@ -47,7 +47,8 @@ var cookieRecordComesFirst={
     'false':'以fetch请求返回的数据为准'
 }
 */
-var cookieRecordComesFirst = localStorage ? localStorage.getItem('cookieRecordComesFirst') : true
+var cookieRecordComesFirst = localStorage && localStorage.getItem('cookieRecordComesFirst') != undefined ? localStorage.getItem('cookieRecordComesFirst') : true
+
 
 
 //从这里开始执行
@@ -66,7 +67,7 @@ window.onload = async function () {
         var taskList = { 'share': shareVideoDone, 'watch': watchVideoDone }
     } else {
         console.log('当前模式：fetch请求优先')
-        var taskList=await checkTasks()
+        var taskList = await checkTasks()
     }
     console.log(taskList)
 
