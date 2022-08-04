@@ -1,5 +1,5 @@
 [Adblock Plus 2.0]
-! Version: 20220712
+! Version: 20220404
 ! Title: bilibili
 
 ! 禁止p2p 放行弹幕数据
@@ -11,3 +11,4 @@ data.bilibili.com/log
 
 ! 阻止live.bilibili.com直播主页自动播放视频
 s1.hdslb.com/bfs/live-pkg/live-web-player/home-player.min.js
+s1.hdslb.com/bfs/blive-engineer/live-web-player/home-player.min.js
