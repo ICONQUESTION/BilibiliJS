@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliClearDynamics
 // @namespace    https://iconquestion.github.io
-// @version      0.24
+// @version      0.26
 // @description  BiliBili world
 // @author       ICONQUESTION
 // @match        https://space.bilibili.com/test
@@ -10,9 +10,25 @@
 // ==/UserScript==
 
 
+//-------!!!-------
+//重要提示
+//此脚本不能直接运行，您需要手动补充其中的两处信息。
+//第一处在下方，您需要补充所要删除动态的类型
+//第二处在代码第80行左右，您需要补充动态的筛选条件。
+//-------!!!-------
+
+
+//-------!!!-------
+//请自行修改该变量的值。该值是您要删除动态的类型。
+//例如，转发类动态的类型是 DYNAMIC_TYPE_FORWARD 
+var condition = ""
+//-------!!!-------
+
+
 var uid = document.cookie.match(/(?<=DedeUserID=).+?(?=;)/)[0];
 var csrf = document.cookie.match(/(?<=bili_jct=).+?(?=;)/)[0];
 var nextoffset = '';
+
 
 //beginning
 if (!uid || !csrf) {
@@ -59,10 +75,31 @@ async function getDynamicContent() {
                 //遍历返回的动态数据，逐条处理
                 //var noSpecificDynamic = true
                 for (var i = 0, dynamicIds; i < data.data.items.length; i++) {
-                    //console.log(data.data.items[i].type)
-                    //console.log(data.data.items[i].modules.module_stat.comment.count)
-
-                    if ((data.data.items[i].type == "DYNAMIC_TYPE_WORD" || data.data.items[i].type == "DYNAMIC_TYPE_FORWARD") && data.data.items[i].modules.module_stat.comment.count == 0) {
+                    
+//-------!!!-------
+//此处，您需要结合一定的JavaScript编程经验，补充所要删除动态的筛选条件。您可以修改下方的if判断语句来达到这个目的。
+//data.data.items[i].modules.module_stat下有三个子项，分别为comment, forward和like，对应评论、转发和点赞，每个子项的count代表具体数值
+//截取片段如下方所示
+/*
+    "module_stat": {
+        "comment": {
+            "count": 233,
+            "forbidden": false
+        },
+        "forward": {
+            "count": 466,
+            "forbidden": false
+        },
+        "like": {
+            "count": 699,
+            "forbidden": false,
+            "status": false
+        }
+    }
+*/
+//您现在应该知道怎么做了.
+//-------!!!-------
+                    if (data.data.items[i].type == condition && data.data.items[i].modules.module_stat.comment.count == 0) {
                         console.log('找到符合要求的动态，ID: ' + data.data.items[i].id_str);
                         console.log('动态类型: ' + data.data.items[i].type);
                         console.log('动态评论数量: ' + data.data.items[i].modules.module_stat.comment.count);
