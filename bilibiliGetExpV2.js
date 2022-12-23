@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         bilibiliGetExpV2
 // @namespace    https://iconquestion.github.io
-// @version      2.10
-// @description  Hello, world!
+// @version      2.11
+// @description  (The 2nd version) Automatically finish DAU task at bilibili to get experience point.
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/*
 // @icon         https://bilibili.com/favicon.ico

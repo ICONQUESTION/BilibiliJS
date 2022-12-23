@@ -2,9 +2,9 @@
 // @name         bilibiliClearDynamics
 // @namespace    https://iconquestion.github.io
 // @version      0.27
-// @description  delete certain type of bilibili dynamics
+// @description  Delete specific type(s) of bilibili dynamics
 // @author       ICONQUESTION
-// @match        https://space.bilibili.com/test
+// @match        https://space.bilibili.com/delete
 // @icon         https://www.bilibili.com/favicon.ico
 // @grant        none
 // ==/UserScript==
