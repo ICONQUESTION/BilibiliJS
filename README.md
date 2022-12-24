@@ -37,9 +37,13 @@ Hello! This is my personal repository! Welcome！
 关键词：undefined
 描述：清除b站消息小红点。随手做的，类似功能的脚本网上也有很多，不打算再更新了，目前只能把“我的消息”里的前20条标记已读。为什么不能做成“一键已读所有消息”呢？很简单，我没有那么多未读消息，没办法测试-_-||
 
-
 ————bilibiliLiveSign.js
 
 关键词：b站 bilibili 直播 签到
 描述：b站直播自动签到。代码极其简单，网上类似甚多，同样不做更新。
+
+————bilibiliClearDynamics.js
+
+关键词：b站 bilibili 动态 清除 删除
+描述：筛选、删除b站特定条件的动态，方便一键清空无用抽奖动态。具体使用方法可参见脚本内注释。
 
