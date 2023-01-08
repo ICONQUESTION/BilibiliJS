@@ -4,7 +4,7 @@
 Github: https://github.com/ICONQUESTION/
 B站: https://space.bilibili.com/329844934
 说明: B站(bilibili) 动态页面 暗黑主题(黑色主题、黑暗主题、暗色主题)(DarkMode)，直接引用到tampermonkey即可
-版本: 1.11
+版本: 1.2
 
 */
 
@@ -68,7 +68,7 @@ B站: https://space.bilibili.com/329844934
 }
 
 /*公告栏*/
-.bili-dyn-banner{
+.bili-dyn-banner {
     background-color: #16181c !important
 }
 
@@ -78,20 +78,41 @@ B站: https://space.bilibili.com/329844934
 }
 
 /*评论区*/
-.bb-comment, .comment-bilibili-fold {
+.bb-comment,
+.comment-bilibili-fold {
+    background: #282a2f !important
+}
+
+/*专栏tab-专栏背景色*/
+.bili-dyn-card-article {
     background: #282a2f !important
 }
 
 
 
 /* 2. 字体颜色替换 */
+/*专栏tab-专栏标题*/
+.bili-dyn-card-article__title {
+    color: #e5e9ef;
+}
+
+/*专栏tab-专栏简介*/
+.bili-dyn-card-article__desc {
+    color: #e5e9ef;
+}
+
 /*话题字体*/
-.relevant-topic__title{
-    color:#e5e9ef !important
+.relevant-topic__title {
+    color: #e5e9ef !important
 }
 
 /*顶栏字体*/
-.mini-header .left-entry .mini-header__title, .mini-header .left-entry .entry-title, .mini-header .left-entry .default-entry, .mini-header .left-entry .loc-mc-box__text, .mini-header .left-entry .download-entry, .mini-header .left-entry .loc-entry {
+.mini-header .left-entry .mini-header__title,
+.mini-header .left-entry .entry-title,
+.mini-header .left-entry .default-entry,
+.mini-header .left-entry .loc-mc-box__text,
+.mini-header .left-entry .download-entry,
+.mini-header .left-entry .loc-entry {
     color: #c9ccd0 !important
 }
 
@@ -131,7 +152,7 @@ B站: https://space.bilibili.com/329844934
 }
 
 /*导航栏标题*/
-.bili-dyn-list-tabs__item{
+.bili-dyn-list-tabs__item {
     color: #c9ccd0 !important
 }
 
@@ -197,23 +218,31 @@ B站: https://space.bilibili.com/329844934
 
 /*图片放大后操作栏选项名称(如‘放大’‘缩小’)*/
 .bili-album__watch__control__option {
-    color: #e5e9ef;
+    color: #e5e9ef !important
 }
 
 /*评论区一级评论*/
-.bb-comment .comment-list .list-item .text, .comment-bilibili-fold .comment-list .list-item .text {
-    color: white;
+.bb-comment .comment-list .list-item .text,
+.comment-bilibili-fold .comment-list .list-item .text {
+    color: white !important
 }
 
 /*评论区二级评论*/
-.bb-comment .comment-list .list-item .user .text-con, .comment-bilibili-fold .comment-list .list-item .user .text-con {
-    color: white;
+.bb-comment .comment-list .list-item .user .text-con,
+.comment-bilibili-fold .comment-list .list-item .user .text-con {
+    color: white !important
 }
 
 /*动态更多操作-下拉列表中的选项*/
 .bili-dyn-more__menu__item {
-    color: white;
+    color: white !important
 }
+
+/*番剧标题*/
+.bili-dyn-card-pgc__title {
+    color: #e5e9ef !important
+}
+
 
 
 /* 3. 其他细节 */
@@ -244,15 +273,27 @@ B站: https://space.bilibili.com/329844934
 
 /*去掉专栏or视频外围的border*/
 .bili-dyn-card-video {
-   border: 0px solid #e5e9ef !important
+    border:none !important
 }
 
 /*评论区一级评论之间的border*/
-.bb-comment .comment-list .list-item .con, .comment-bilibili-fold .comment-list .list-item .con {
+.bb-comment .comment-list .list-item .con,
+.comment-bilibili-fold .comment-list .list-item .con {
     border-top: 1px solid #e5e9ef !important
 }
 
 /*动态操作按钮下拉列表背景*/
-.bili-popover, .bili-popover__arrow {
+.bili-popover,
+.bili-popover__arrow {
     background-color: #282a2f !important
+}
+
+/*去掉番剧外围的border*/
+.bili-dyn-card-pgc {
+    border:none !important
+}
+
+/*去掉专栏tab-专栏的border*/
+.bili-dyn-card-article {
+    border:none !important
 }
