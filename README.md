@@ -50,3 +50,8 @@ Hello! This is my personal repository! Welcome！
 关键词：b站 bilibili 动态 清除 删除
 描述：筛选、删除b站特定条件的动态，方便一键清空无用抽奖动态。具体使用方法可参见脚本内注释。
 
+————biliDynPageDarkMode.css
+
+关键词：b站 bilibili 动态页面 黑色 暗黑 深色 主题
+示例图如下：![image](https://user-images.githubusercontent.com/39425011/211202219-ba978730-7e8b-4136-8ae5-b87882ce563f.png)
+
