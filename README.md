@@ -1,21 +1,24 @@
-# Bilibili JS脚本
+# Bilibili JavaScript脚本
 Hello! This is my personal repository! Welcome！
-欢迎访问我的BilibiliJS代码库！
-以下是各个JavaScript脚本的简单介绍。
 
+欢迎访问我的BilibiliJS代码库！以下是各个JavaScript脚本的简单介绍。
 
-声明：
+**声明：**
+
 项目更新【完全】随机，仅供个人学习娱乐使用，【不对任何项目的质量做任何保证，也不对任何违反使用规定所造成的任何影响负责】！！！
 
+**下载方法：**
 
-下载方法：
 如果需要下载到您的电脑上，可以直接从Github代码库主页下载
+
 如果希望将脚本添加到浏览器并保持更新，推荐您从我的greasyfork主页下载：https://greasyfork.org/zh-CN/users/1000124-iconquestion
+
 或者，您也可以访问我的github.io主页：https://iconquestion.github.io/BilibiliJS/
 
+**脚本关键词及相关描述：**
 
-脚本关键词及相关描述：
 ————bilibiliGetExp.js
+
 ————bilibiliGetExpV2.js
 
 关键词：b站 bilibili 刷经验
