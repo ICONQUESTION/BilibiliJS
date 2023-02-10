@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibiliGetExpV2
 // @namespace    https://iconquestion.github.io
-// @version      2.18
+// @version      2.20
 // @description  (The 2nd version) Automatically finish DAU task at bilibili to get experience point.
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/*
@@ -82,7 +82,10 @@ window.onload = async function () {
 
     //4.1 完成观看视频任务
     if (!taskList.share || debugMode) {
-        watchVideo(videoProp)
+        setTimeout(function(){
+            watchVideo(videoProp)
+        }, Math.random() * 100)
+
     } else {
         console.log('观看视频任务已经完成！')
     }
@@ -94,7 +97,9 @@ window.onload = async function () {
             getAccessKey()
         } else {
             //4.2.1 分享视频
-            shareVideo(videoProp)
+            setTimeout(function(){
+                shareVideo(videoProp)
+            }, Math.random() * 100)
         }
 
     } else {
