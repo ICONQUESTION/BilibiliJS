@@ -8,7 +8,7 @@
 
 ! 阻止用户操作数据上传
 data.bilibili.com/log
-s1.hdslb.com/bfs/seed/log
+s1.hdslb.com/bfs/seed/log/report/log-reporter.js
 
 ! 阻止live.bilibili.com直播主页自动播放视频
 s1.hdslb.com/bfs/live-pkg/live-web-player/home-player.min.js
