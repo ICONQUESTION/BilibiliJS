@@ -1,0 +1,299 @@
+/*
+
+作者: @ICONQUESTION
+Github: https://github.com/ICONQUESTION/
+B站: https://space.bilibili.com/329844934
+说明: B站(bilibili) 动态页面 暗黑主题(黑色主题、黑暗主题、暗色主题)(DarkMode)，直接引用到tampermonkey即可
+版本: 1.2
+
+*/
+
+
+
+/*1. 背景颜色替换*/
+
+/*基本背景*/
+.bili-dyn-home--member {
+    background-color: #000000 !important
+}
+
+/*顶栏*/
+.bili-header .bili-header__bar {
+    background-color: #16181c !important
+}
+
+/*个人信息*/
+.bili-dyn-my-info__content {
+    background-color: #16181c !important
+}
+
+/*话题*/
+.topic-panel {
+    background: #16181c !important
+}
+
+/*直播用户*/
+.bili-dyn-live-users {
+    background-color: #16181c !important
+}
+
+/*动态发布栏*/
+.bili-dyn-publishing {
+    background-color: #16181c !important
+}
+
+/*推荐话题标签*/
+.bili-topic-search__popover {
+    background-color: inherit !important
+}
+
+/*动态输入栏*/
+.bili-rich-textarea__inner {
+    background-color: #16181c !important
+}
+
+/*推荐UP栏*/
+.bili-dyn-up-list {
+    background: #16181c !important
+}
+
+/*选项卡栏*/
+.bili-dyn-list-tabs__list {
+    background: #16181c !important
+}
+
+/*动态内容*/
+.bili-dyn-item {
+    background-color: #16181c !important
+}
+
+/*公告栏*/
+.bili-dyn-banner {
+    background-color: #16181c !important
+}
+
+/*视频直播预约卡片*/
+.dyn-reserve__card {
+    background-color: #282a2f !important
+}
+
+/*评论区*/
+.bb-comment,
+.comment-bilibili-fold {
+    background: #282a2f !important
+}
+
+/*专栏tab-专栏背景色*/
+.bili-dyn-card-article {
+    background: #282a2f !important
+}
+
+
+
+/* 2. 字体颜色替换 */
+/*专栏tab-专栏标题*/
+.bili-dyn-card-article__title {
+    color: #e5e9ef;
+}
+
+/*专栏tab-专栏简介*/
+.bili-dyn-card-article__desc {
+    color: #e5e9ef;
+}
+
+/*话题字体*/
+.relevant-topic__title {
+    color: #e5e9ef !important
+}
+
+/*顶栏字体*/
+.mini-header .left-entry .mini-header__title,
+.mini-header .left-entry .entry-title,
+.mini-header .left-entry .default-entry,
+.mini-header .left-entry .loc-mc-box__text,
+.mini-header .left-entry .download-entry,
+.mini-header .left-entry .loc-entry {
+    color: #c9ccd0 !important
+}
+
+/*昵称*/
+.bili-dyn-my-info__name {
+    color: #e5e9ef !important
+}
+
+/*数据*/
+.bili-dyn-my-info__stat__item__count {
+    color: #e5e9ef !important
+}
+
+/*'正在直播'*/
+.bili-dyn-live-users__title {
+    color: #e5e9ef !important
+}
+
+/*'更多'*/
+.bili-dyn-live-users__more {
+    color: #e5e9ef !important
+}
+
+/*直播用户名称*/
+.bili-dyn-live-users__item__uname {
+    color: #e5e9ef !important
+}
+
+/*直播用户标题*/
+.bili-dyn-live-users__item__title {
+    color: #e5e9ef !important
+}
+
+/*推荐栏UP名称*/
+.bili-dyn-up-list__item__name {
+    color: #c9ccd0 !important
+}
+
+/*导航栏标题*/
+.bili-dyn-list-tabs__item {
+    color: #c9ccd0 !important
+}
+
+/*动态文字内容*/
+.bili-rich-text__content {
+    color: #e5e9ef !important
+}
+
+/*非大会员UP名称*/
+.bili-dyn-title__text {
+    color: #e5e9ef !important
+}
+
+/*专栏or视频名称*/
+.bili-dyn-card-video__title {
+    color: #e5e9ef !important
+}
+
+/*专栏or视频简介*/
+.bili-dyn-card-video__desc {
+    color: #c9ccd0 !important
+}
+
+/*视频直播预约卡片简介*/
+.dyn-reserve__title {
+    color: #c9ccd0 !important
+}
+
+/*相关推荐卡片标题*/
+.dyn-additional-common__detail__title {
+    color: #e5e9ef !important
+}
+
+/*顶栏右侧选项卡名称*/
+.mini-header .right-entry .right-entry__outside .right-entry-text {
+    color: #c9ccd0 !important
+}
+
+/*顶栏右侧选项卡图标*/
+.mini-header .right-entry .right-entry__outside .right-entry-icon {
+    color: #c9ccd0 !important
+}
+
+/*搜索框下拉列表*/
+.bili-header .search-panel {
+    background: #505050 !important
+}
+
+/*搜索框聚焦*/
+.mini-header .center-search-container .center-search__bar #nav-searchform.is-focus {
+    background: #777 !important
+}
+
+/*'公告栏'*/
+.bili-dyn-banner__title {
+    color: #e5e9ef !important
+}
+
+/*'话题'*/
+.topic-panel__nav-title {
+    color: #c9ccd0 !important
+}
+
+/*图片放大后操作栏选项名称(如‘放大’‘缩小’)*/
+.bili-album__watch__control__option {
+    color: #e5e9ef !important
+}
+
+/*评论区一级评论*/
+.bb-comment .comment-list .list-item .text,
+.comment-bilibili-fold .comment-list .list-item .text {
+    color: white !important
+}
+
+/*评论区二级评论*/
+.bb-comment .comment-list .list-item .user .text-con,
+.comment-bilibili-fold .comment-list .list-item .user .text-con {
+    color: white !important
+}
+
+/*动态更多操作-下拉列表中的选项*/
+.bili-dyn-more__menu__item {
+    color: white !important
+}
+
+/*番剧标题*/
+.bili-dyn-card-pgc__title {
+    color: #e5e9ef !important
+}
+
+
+
+/* 3. 其他细节 */
+/*专栏or视频右侧背景*/
+.bili-dyn-card-video__body {
+    background-color: #282a2f !important
+}
+
+/*番剧右侧背景*/
+.bili-dyn-card-pgc__body {
+    background-color: #282a2f !important
+}
+
+/*引用动态背景*/
+.bili-dyn-content__orig.reference {
+    background-color: #282a2f !important
+}
+
+/*相关推荐卡片*/
+.reference .dyn-additional-common__wrap {
+    background-color: #333333 !important
+}
+
+/*顶栏与下方中间的一抹缝隙 从图片改成背景色*/
+#app .bg {
+    background: #c9ccd0 !important
+}
+
+/*去掉专栏or视频外围的border*/
+.bili-dyn-card-video {
+    border:none !important
+}
+
+/*评论区一级评论之间的border*/
+.bb-comment .comment-list .list-item .con,
+.comment-bilibili-fold .comment-list .list-item .con {
+    border-top: 1px solid #e5e9ef !important
+}
+
+/*动态操作按钮下拉列表背景*/
+.bili-popover,
+.bili-popover__arrow {
+    background-color: #282a2f !important
+}
+
+/*去掉番剧外围的border*/
+.bili-dyn-card-pgc {
+    border:none !important
+}
+
+/*去掉专栏tab-专栏的border*/
+.bili-dyn-card-article {
+    border:none !important
+}

@@ -1,27 +1,16 @@
 // ==UserScript==
 // @name         bilibiliClearDynamics
 // @namespace    https://iconquestion.github.io
-// @version      0.26
-// @description  BiliBili world
+// @version      0.27
+// @description  Delete specific type(s) of bilibili dynamics
 // @author       ICONQUESTION
-// @match        https://space.bilibili.com/test
+// @match        https://space.bilibili.com/delete
 // @icon         https://www.bilibili.com/favicon.ico
 // @grant        none
 // ==/UserScript==
 
-
 //-------!!!-------
-//重要提示
-//此脚本不能直接运行，您需要手动补充其中的两处信息。
-//第一处在下方，您需要补充所要删除动态的类型
-//第二处在代码第80行左右，您需要补充动态的筛选条件。
-//-------!!!-------
-
-
-//-------!!!-------
-//请自行修改该变量的值。该值是您要删除动态的类型。
-//例如，转发类动态的类型是 DYNAMIC_TYPE_FORWARD 
-var condition = ""
+//如果您是初次使用/重新安装了此脚本，请向下翻，补充相应的代码片段。
 //-------!!!-------
 
 
@@ -73,33 +62,40 @@ async function getDynamicContent() {
                 console.log('偏移位置: ' + nextoffset + ', 获取到 ' + data.data.items.length + ' 条动态');
 
                 //遍历返回的动态数据，逐条处理
-                //var noSpecificDynamic = true
-                for (var i = 0, dynamicIds; i < data.data.items.length; i++) {
+                for (var i = 0; i < data.data.items.length; i++) {
+
+                    //-------!!!-------
+                    //此处，您需要结合一定的JavaScript编程经验，补充所要删除动态的筛选条件。您可以修改下方的if判断语句来达到这个目的。
+
+                    //1.data.data.items[i].modules.module_stat下有三个子项，分别为comment, forward和like，对应评论、转发和点赞，每个子项的count代表具体数值
+                    //截取片段如下方所示
+                    /*
+                        "module_stat": {
+                            "comment": {
+                                "count": 233,
+                                "forbidden": false
+                            },
+                            "forward": {
+                                "count": 466,
+                                "forbidden": false
+                            },
+                            "like": {
+                                "count": 699,
+                                "forbidden": false,
+                                "status": false
+                            }
+                        }
+                    */
+                    //example: if(data.data.items[i].modules.module_stat.comment.count == 0) 这代表筛选评论数量为0的动态
                     
-//-------!!!-------
-//此处，您需要结合一定的JavaScript编程经验，补充所要删除动态的筛选条件。您可以修改下方的if判断语句来达到这个目的。
-//data.data.items[i].modules.module_stat下有三个子项，分别为comment, forward和like，对应评论、转发和点赞，每个子项的count代表具体数值
-//截取片段如下方所示
-/*
-    "module_stat": {
-        "comment": {
-            "count": 233,
-            "forbidden": false
-        },
-        "forward": {
-            "count": 466,
-            "forbidden": false
-        },
-        "like": {
-            "count": 699,
-            "forbidden": false,
-            "status": false
-        }
-    }
-*/
-//您现在应该知道怎么做了.
-//-------!!!-------
-                    if (data.data.items[i].type == condition && data.data.items[i].modules.module_stat.comment.count == 0) {
+                    //2. 您需要补充要删除动态的类型。
+                    //例如，转发类动态的类型是 DYNAMIC_TYPE_FORWARD 
+
+                    var condition = ""
+
+                    //-------!!!-------
+
+                    if (data.data.items[i].type == condition) {
                         console.log('找到符合要求的动态，ID: ' + data.data.items[i].id_str);
                         console.log('动态类型: ' + data.data.items[i].type);
                         console.log('动态评论数量: ' + data.data.items[i].modules.module_stat.comment.count);

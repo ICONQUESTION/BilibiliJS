@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         bilibiliAutoGetRedpocket
 // @namespace    https://iconquestion.github.io/
-// @version      1.081
-// @description  try to take over the world!
+// @version      1.09
+// @description  Auto get bilibili livestreaming redpocket from recommendation page
 // @author       iconquestion
 // @match        https://live.bilibili.com/run
 // @icon         https://live.bilibili.com/favicon.ico

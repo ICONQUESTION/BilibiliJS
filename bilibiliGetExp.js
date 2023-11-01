@@ -2,7 +2,7 @@
 // @name         bilibiliGetExp
 // @namespace    https://iconquestion.github.io
 // @version      1.29
-// @description  Hello, world!
+// @description  (Original version) Automatically finish DAU task at bilibili to get experience point.
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com
 // @icon         https://bilibili.com/favicon.ico
