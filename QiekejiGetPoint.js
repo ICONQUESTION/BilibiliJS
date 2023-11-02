@@ -1,5 +1,6 @@
 //胖乖洗衣 脚本 自动刷积分 完成每日任务
 //author: ICONQUESTION
+//version: 0.2
 
 if (!localStorage.getItem("qietoken") || localStorage.getItem("qietoken") == 'null') {
     localStorage.setItem("qietoken", prompt("Token is not found. Please update the token below!"));
@@ -78,7 +79,7 @@ var taskActions = {
                                     }
                                 });
                             })
-                            await sleep(5000);
+                            await sleep(15000 + Math.random() * 5000);
                         }
                         resolve();
                     } catch (error) {
@@ -130,7 +131,7 @@ var taskActions = {
                     },
                 });
             });
-            await sleep(5000);
+            await sleep(15000 + 5000 * Math.random());
         }
     },
     '100003': async function (n) {
@@ -173,7 +174,7 @@ var taskActions = {
                     },
                 });
             });
-            await sleep(5000);
+            await sleep(15000 + 5000 * Math.random());
         }
     },
 };
@@ -301,14 +302,14 @@ console.log("token: " + token);
 if (!await checkSignIn()) signIn(); else console.log("Already signed in today.");
 
 var data = await getTaskStatus();
-for (var i = 0; i < data.total; i++) {
+for (var i = 0; i < data.items.length; i++) {
     console.log("Checking task " + (i + 1));
     console.log(data.items[i]);
     if (!data.items[i].completedStatus && taskActions[data.items[i].id]) {
         await taskActions[data.items[i].id](data.items[i].dailyTaskLimit);
+        console.log("Total points: " + await getTotalIntegral());
     } else {
         console.log("Task " + (i + 1) + " has been finished");
     }
-    console.log("Total points: " + await getTotalIntegral());
 }
-console.log("All tasks have been finished!");
+console.log("All tasks have been finished! \nTotal points: " + await getTotalIntegral());
