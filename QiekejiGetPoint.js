@@ -209,6 +209,49 @@ async function checkSignIn() {
     //checkSignIn
     console.log("executing checkSignIn");
 
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/signin/signInAcList",
+        "headers": headers,
+        "anonymous": true,
+        "data": "token=" + token,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "GET",
+        "url": "https://userapi.qiekj.com/integralUmp/horseRaceLamp?token=" + token,
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "GET",
+        "url": "https://userapi.qiekj.com/integralUmp/integralRankings?token=" + token,
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
     return await new Promise((resolve) => {
         GM_xmlhttpRequest({
             "method": "POST",
@@ -292,24 +335,248 @@ async function getTotalIntegral() {
 
 }
 
+async function deepfake() {
+    //Used to simulate user interaction with the app
+    console.log("executing deepfake()");
+
+    GM_xmlhttpRequest({
+        "method": "GET",
+        "url": "https://qemyapi.qiekj.com/item_category/list",
+        "headers": {
+            "User-Agent": "QEUser/1.34.0 (com.qiekj.QEUser; build:3; iOS 17.1.0) Alamofire/5.6.4",
+            "Accept-Language": "zh-Hans-CN;q=1.0",
+            "Accept": "*/*",
+            "Accept-Encoding": "gzip, deflate, br",
+        },
+        "anonymous": true,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    })
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/common/version",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "plat=1&token=" + token + "&ver=1.34.0",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    })
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/slot/get",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "slotKey=ios_new_home_right_ad&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/slot/get",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "slotKey=ios_hot_open_screen_ad_new&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/slot/get",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "slotKey=ios_new_home_fence_left_a&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/appTitle/get",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "titleMark=point&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/message/index/list",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "subtypeId=5&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/message/notRead/count",
+        "headers": headers,
+        "anonymous": true,
+        "responseType": "json",
+        "data": "type=2&token=" + token,
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/common/image",
+        "headers": headers,
+        "anonymous": true,
+        "data": "code=bottom-central-gif&token=" + token,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://qemyapi.qiekj.com/api/item_list",
+        "headers": headers,
+        "anonymous": true,
+        "data": "categoryCode=&page=1&pageSize=20&showLocations=1",
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/cloud/card/list/v2",
+        "headers": headers,
+        "anonymous": true,
+        "data": "pageNum=1&pageSize=20&token=" + token,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    GM_xmlhttpRequest({
+        "method": "POST",
+        "url": "https://userapi.qiekj.com/user/balance",
+        "headers": headers,
+        "anonymous": true,
+        "data": "token=" + token,
+        "responseType": "json",
+        "onload": function (response) {
+            console.log(response.response);
+        },
+        "onerror": function (error) {
+            console.error(error);
+        }
+    });
+
+    return await new Promise((resolve) => {
+        GM_xmlhttpRequest({
+            "method": "POST",
+            "url": "https://userapi.qiekj.com/user/info",
+            "headers": headers,
+            "anonymous": true,
+            "data": "token=" + token,
+            "responseType": "json",
+            "onload": async function (response) {
+                console.log(response.response);
+                await sleep(2000 + Math.random() * 1000);
+                resolve();
+            },
+            "onerror": function (error) {
+                console.error(error);
+            }
+        });
+    })
+}
+
 function sleep(time) {
+    console.log("Sleep for " + time + " ms");
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 //--------------------main--------------------
-console.log("token: " + token);
 
-if (!await checkSignIn()) signIn(); else console.log("Already signed in today.");
+var isFinished = document.cookie.replace(
+    /(?:(?:^|.*;\s*)isFinished\s*\=\s*([^;]*).*$)|^.*$/,
+    "$1",
+);
 
-var data = await getTaskStatus();
-for (var i = 0; i < data.items.length; i++) {
-    console.log("Checking task " + (i + 1));
-    console.log(data.items[i]);
-    if (!data.items[i].completedStatus && taskActions[data.items[i].id]) {
-        await taskActions[data.items[i].id](data.items[i].dailyTaskLimit);
-        console.log("Total points: " + await getTotalIntegral());
-    } else {
-        console.log("Task " + (i + 1) + " has been finished");
+if (!isFinished) {
+    console.log("token: " + token);
+    //start working!
+    await deepfake();
+    if (!await checkSignIn()) signIn(); else console.log("Already signed in today.");
+
+    var data = await getTaskStatus();
+    for (var i = 0; i < data.items.length; i++) {
+        console.log("Checking task " + (i + 1));
+        console.log(data.items[i]);
+        if (!data.items[i].completedStatus && taskActions[data.items[i].id]) {
+            await taskActions[data.items[i].id](data.items[i].dailyTaskLimit);
+            console.log("Total points: " + await getTotalIntegral());
+        } else {
+            console.log("Task " + (i + 1) + " has been finished");
+        }
     }
+    var a = new Date();
+    a.setHours(24, 0, 0, 0);
+    document.cookie = "isFinished=1; expires=" + a.toUTCString();
 }
+
 console.log("All tasks have been finished! \nTotal points: " + await getTotalIntegral());
+
+
