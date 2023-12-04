@@ -557,6 +557,11 @@ var isFinished = document.cookie.replace(
 
 if (!isFinished) {
     console.log("token: " + token);
+    if (!token || token == "null") {
+        console.error("No token available");
+        return;
+    }
+
     //start working!
     await deepfake();
     if (!await checkSignIn()) signIn(); else console.log("Already signed in today.");
