@@ -167,7 +167,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in watchVideos");
+                            console.error("error in 100003");
                             console.log(error);
                             return;
                         }
@@ -177,6 +177,50 @@ var taskActions = {
             await sleep(15000 + 5000 * Math.random());
         }
     },
+    '600003':async function(n)
+    {
+        // 招商银行卡支付
+        if (!n) {
+            console.error("invalid argument when calling 600003");
+            return;
+        }
+
+        /*
+        response example:
+        {"code":0,"msg":"成功","data":true,"t":1698728364755}
+        */
+
+        for (var i = 0; i < n; i++) {
+            console.log("payByUnionpay count " + i);
+
+            await new Promise((resolve) => {
+                GM_xmlhttpRequest({
+                    "method": "POST",
+                    "url": "https://userapi.qiekj.com/task/completed",
+                    "headers": headers,
+                    "anonymous": true,
+                    "data": "taskType=6&token=" + token,
+                    "responseType": "json",
+                    "onload": function (response) {
+                        try {
+                            console.log(response.response);
+                            if (response.status != 200 || response.response.code != 0 || !response.response.msg) {
+                                n = 0;
+                                throw (response.response);
+                            }
+                            resolve();
+                        } catch (error) {
+                            console.error("error in 100003");
+                            console.log(error);
+                            return;
+                        }
+                    },
+                });
+            });
+            await sleep(15000 + 5000 * Math.random());
+        }
+
+    }
 };
 
 async function getTaskStatus() {
