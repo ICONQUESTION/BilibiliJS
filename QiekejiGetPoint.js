@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Qiekeji_GetPoint
 // @namespace    http://tampermonkey.net/
-// @version      0.14
+// @version      0.17
 // @description  try to take over the world!
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/*
@@ -188,8 +188,7 @@ var taskActions = {
             await sleep(15000 + 5000 * Math.random());
         }
     },
-    '600003':async function(n)
-    {
+    '600003': async function (n) {
         // 招商银行卡支付
         if (!n) {
             console.error("invalid argument when calling payByZhaohang");
@@ -623,10 +622,11 @@ if (!isFinished) {
 
     var data = await getTaskStatus();
     for (var i = 0; i < data.items.length; i++) {
-        console.log("Checking task " + (i + 1));
+        console.log("Checking task " + data.items[i].id);
         console.log(data.items[i]);
         if (!data.items[i].completedStatus && taskActions[data.items[i].id]) {
-            await taskActions[data.items[i].id](data.items[i].dailyTaskLimit);
+            console.log("TaskID: " + data.items[i].id + "  TotalCount: " + n + "  completedSumFreq: " + data.items[i].completedSumFreq);
+            await taskActions[data.items[i].id](data.items[i].dailyTaskLimit - data.items[i].completedSumFreq);
             console.log("Total points: " + await getTotalIntegral());
         } else {
             console.log("Task " + (i + 1) + " has been finished");
