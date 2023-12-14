@@ -192,7 +192,7 @@ var taskActions = {
     {
         // 招商银行卡支付
         if (!n) {
-            console.error("invalid argument when calling 600003");
+            console.error("invalid argument when calling payByZhaohang");
             return;
         }
 
@@ -202,7 +202,7 @@ var taskActions = {
         */
 
         for (var i = 0; i < n; i++) {
-            console.log("600003 count " + i);
+            console.log("payByZhaohang count " + i);
 
             await new Promise((resolve) => {
                 GM_xmlhttpRequest({
@@ -221,7 +221,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in 600003");
+                            console.error("error in payByZhaohang");
                             console.log(error);
                             return;
                         }
