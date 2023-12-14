@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         Qiekeji_GetPoint
+// @namespace    http://tampermonkey.net/
+// @version      0.14
+// @description  try to take over the world!
+// @author       ICONQUESTION
+// @match        https://t.bilibili.com/*
+// @icon         https://www.bilibili.com/favicon.ico
+// @grant        GM_xmlhttpRequest
+// ==/UserScript==
+
 //胖乖洗衣 脚本 自动刷积分 完成每日任务
 //author: ICONQUESTION
 //version: 0.2
@@ -191,7 +202,7 @@ var taskActions = {
         */
 
         for (var i = 0; i < n; i++) {
-            console.log("payByUnionpay count " + i);
+            console.log("600003 count " + i);
 
             await new Promise((resolve) => {
                 GM_xmlhttpRequest({
@@ -210,7 +221,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in 100003");
+                            console.error("error in 600003");
                             console.log(error);
                             return;
                         }
