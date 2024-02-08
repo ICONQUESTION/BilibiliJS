@@ -1,17 +1,13 @@
 // ==UserScript==
 // @name         Qiekeji_GetPoint
 // @namespace    http://tampermonkey.net/
-// @version      0.17
-// @description  try to take over the world!
+// @version      0.28
+// @description  胖乖洗衣 脚本 自动刷积分 完成每日任务
 // @author       ICONQUESTION
 // @match        https://t.bilibili.com/*
 // @icon         https://www.bilibili.com/favicon.ico
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
-
-//胖乖洗衣 脚本 自动刷积分 完成每日任务
-//author: ICONQUESTION
-//version: 0.2
 
 if (!localStorage.getItem("qietoken") || localStorage.getItem("qietoken") == 'null') {
     localStorage.setItem("qietoken", prompt("Token is not found. Please update the token below!"));
@@ -27,16 +23,15 @@ var headers = {
     "Accept-Encoding": "gzip, deflate",
 };
 var taskActions = {
-    '100001': async function (n) {
+    '1': async function (n) {
         if (!n) {
-            console.error("invalid argument when calling fetchGoods");
+            console.error("invalid argument when calling 浏览商品赚积分");
             return;
         }
 
-        //--------------------fetchGoods--------------------
+        //--------------------浏览商品赚积分--------------------
 
-
-        console.log("executing fetchGoods");
+        console.log("Task: 浏览商品赚积分 Count: " + n);
 
         //get item list
         await new Promise((resolve) => {
@@ -51,11 +46,11 @@ var taskActions = {
                     try {
                         console.log(JSON.parse(response.response));
                         var data = JSON.parse(response.response);
-                        if (response.status != 200 || data.code != 0 || !data.data) throw ("error when executing fetchGoods");
+                        if (response.status != 200 || data.code != 0 || !data.data) throw ("error when executing 浏览商品赚积分");
 
                         for (var i = 0; i < n; i++) {
                             //do task
-                            console.log("viewGoods count " + (i + 1) + ", total " + n);
+                            console.log("Task: 浏览商品赚积分 count: " + i + " of " + n);
 
                             //randomly select one of the item_ids
                             var item = data.data.data[Math.trunc(Math.random() * data.data.data.length)], itemid = item.item_id;
@@ -80,10 +75,10 @@ var taskActions = {
                                                 n = 0;
                                                 throw (response.response);
                                             }
-                                            console.log("viewGoods msg: " + response.response.msg);
+                                            console.log("Task: 浏览商品赚积分 msg: " + response.response.msg);
                                             resolve();
                                         } catch (error) {
-                                            console.error("error when executing viewGoods");
+                                            console.error("error when executing 浏览商品赚积分");
                                             console.log(error);
                                             return;
                                         };
@@ -94,7 +89,7 @@ var taskActions = {
                         }
                         resolve();
                     } catch (error) {
-                        console.error("error when executing fetchGoods");
+                        console.error("error when executing 浏览商品赚积分");
                         console.log(error);
                         return;
                     }
@@ -102,21 +97,22 @@ var taskActions = {
             });
         });
     },
-    '100002': async function (n) {
+    '2': async function (n) {
         if (!n) {
-            console.error("invalid argument when calling watchVideos");
+            console.error("invalid argument when calling 看视频赚积分");
             return;
         }
 
-        //--------------------watchVideos--------------------
+        //--------------------看视频赚积分--------------------
 
         /*
         example:
         {"code":0,"msg":"成功","data":true,"t":1698728364755}
         */
+        console.log("Task: 看视频赚积分  Totalcount: " + n);
 
         for (var i = 0; i < n; i++) {
-            console.log("watchVideos count " + i);
+            console.log("Task: 看视频赚积分  count: " + i + " of " + n);
 
             await new Promise((resolve) => {
                 GM_xmlhttpRequest({
@@ -135,7 +131,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in watchVideos");
+                            console.error("error in 看视频赚积分");
                             console.log(error);
                             return;
                         }
@@ -145,21 +141,23 @@ var taskActions = {
             await sleep(15000 + 5000 * Math.random());
         }
     },
-    '100003': async function (n) {
+    '4': async function (n) {
         if (!n) {
-            console.error("invalid argument when calling payByUnionpay");
+            console.error("invalid argument when calling 开通云闪付无感支付");
             return;
         }
 
-        //--------------------payByUnionpay--------------------
+        //--------------------开通云闪付无感支付--------------------
 
         /*
         example:
         {"code":0,"msg":"成功","data":true,"t":1698728364755}
         */
 
+        console.log("Task: 开通云闪付无感支付 Totalcount: " + n);
+
         for (var i = 0; i < n; i++) {
-            console.log("payByUnionpay count " + i);
+            console.log("Task: 开通云闪付无感支付 count " + i + " of " + n);
 
             await new Promise((resolve) => {
                 GM_xmlhttpRequest({
@@ -178,7 +176,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in 100003");
+                            console.error("error in 开通云闪付无感支付");
                             console.log(error);
                             return;
                         }
@@ -189,9 +187,11 @@ var taskActions = {
         }
     },
     '600003': async function (n) {
-        // 招商银行卡支付
+
+        //--------------------开通招商银行卡支付--------------------
+
         if (!n) {
-            console.error("invalid argument when calling payByZhaohang");
+            console.error("invalid argument when calling 开通招商银行卡支付");
             return;
         }
 
@@ -200,8 +200,10 @@ var taskActions = {
         {"code":0,"msg":"成功","data":true,"t":1698728364755}
         */
 
+        console.log("Task: 开通招商银行卡支付 Totalcount: " + n);
+
         for (var i = 0; i < n; i++) {
-            console.log("payByZhaohang count " + i);
+            console.log("Task: 开通招商银行卡支付 count: " + i);
 
             await new Promise((resolve) => {
                 GM_xmlhttpRequest({
@@ -220,7 +222,7 @@ var taskActions = {
                             }
                             resolve();
                         } catch (error) {
-                            console.error("error in payByZhaohang");
+                            console.error("error in 开通招商银行卡支付");
                             console.log(error);
                             return;
                         }
@@ -621,15 +623,17 @@ if (!isFinished) {
     if (!await checkSignIn()) signIn(); else console.log("Already signed in today.");
 
     var data = await getTaskStatus();
+
     for (var i = 0; i < data.items.length; i++) {
-        console.log("Checking task " + data.items[i].id);
+        console.log("Checking task " + data.items[i].title);
         console.log(data.items[i]);
-        if (!data.items[i].completedStatus && taskActions[data.items[i].id]) {
-            console.log("TaskID: " + data.items[i].id + "  TotalCount: " + n + "  completedSumFreq: " + data.items[i].completedSumFreq);
-            await taskActions[data.items[i].id](data.items[i].dailyTaskLimit - data.items[i].completedSumFreq);
+
+        if (!data.items[i].completedStatus && taskActions[data.items[i].taskCode]) {
+            console.log("taskCode: " + data.items[i].taskCode + "  title: " + data.items[i].title + "  dailyTaskLimit: " + data.items[i].dailyTaskLimit);
+            await taskActions[data.items[i].taskCode](data.items[i].dailyTaskLimit - data.items[i].completedSumFreq);
             console.log("Total points: " + await getTotalIntegral());
         } else {
-            console.log("Task " + (i + 1) + " has been finished");
+            console.log("Task " + data.items[i].title + " has been finished");
         }
     }
     var a = new Date();
