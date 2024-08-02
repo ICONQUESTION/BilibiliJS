@@ -6,7 +6,6 @@
 *tracker*.chat.bilibili.com
 
 ! 阻止用户操作数据上传
-data.bilibili.com/log
 api.bilibili.com/x/polymer/spy-family/report
 api.bilibili.com/x/v2/history/report
 s1.hdslb.com/bfs/seed/log/report/log-reporter.js
