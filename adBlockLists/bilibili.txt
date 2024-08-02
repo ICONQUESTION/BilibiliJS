@@ -1,14 +1,16 @@
 [Adblock Plus 2.0]
-! Version: 20230415
+! Version: 20240801
 ! Title: bilibili
 
-! 禁止p2p 放行弹幕数据
-@@*.chat.bilibili.com/sub
-*.chat.bilibili.com
+! 禁止直播p2p上行
+*tracker*.chat.bilibili.com
 
 ! 阻止用户操作数据上传
 data.bilibili.com/log
+api.bilibili.com/x/polymer/spy-family/report
+api.bilibili.com/x/v2/history/report
 s1.hdslb.com/bfs/seed/log/report/log-reporter.js
+mall.bilibili.com/mall-dayu/h5/monitor
 
 ! 阻止live.bilibili.com直播主页自动播放视频
 s1.hdslb.com/bfs/live-pkg/live-web-player/home-player.min.js
