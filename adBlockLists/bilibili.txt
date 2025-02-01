@@ -3,7 +3,9 @@
 ! Title: bilibili
 
 ! 禁止直播p2p上行
-*tracker*.chat.bilibili.com
+tracker.chat.bilibili.com
+live-p2p-*.chat.bilibili.com
+live-tracker-*.chat.bilibili.com
 
 ! 阻止用户操作数据上传
 api.bilibili.com/x/polymer/spy-family/report
